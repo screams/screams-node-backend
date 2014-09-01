@@ -16,6 +16,20 @@ exports.initializeOptions	= function(serverOptions){
 	requestOptions	=	serverOptions;
 }
 
+/*
+	Sample JSON
+		{
+			"UserName"		:	"Praneesh",
+			"DOB"			:	"22-June-1988",
+			"Sex"			:	"M",
+			"Email"			:	"pranuvitmsse05@gmail.com",
+			"Password"		:	"md5-hash",
+			"Phone"			:	"8197239863",
+			"CCode"			:	"+91",
+			"MemberSince"	:	"10-Aug-2014",
+			"Nationality"	:	"Indian"
+		}
+*/
 exports.createUser = function(req,res){
 	/*
 		The Parameters Are Not Tested For Their Validity.
@@ -24,21 +38,25 @@ exports.createUser = function(req,res){
 		For now and future, client side validation has to be done.
 	*/
 	var uuid	= uuidHelper.UUIDv4();
-	var signUpLocation	=	geoIPHelper.getCity("199.63.245.58");
+	var clientIPAddress	= req.header('x-forwarded-for') || req.connection.remoteAddress;
+	console.log(clientIPAddress);
+	var signUpLocation	=	geoIPHelper.getCity(clientIPAddress);
+	var reqOrigin		= req.headers.origin;
 	var jsonPayLoad	= {
-				"query":"CREATE (n:User { UUID:{UUID} ,UserName:{UserName} ,DOB:{DOB} ,Sex:{Sex} ,Email:{Email} ,Password:{Password} ,Phone:{Phone}, CCode:{CCode} ,MemberSince:{MemberSince} ,Nationality:{Nationality} ,SignedUpLoc:{SignedUpLoc} }) RETURN n",
+				"query":"CREATE (n:User { UUID:{UUID} ,UserName:{UserName} ,DOB:{DOB} ,Sex:{Sex} ,Email:{Email} ,Password:{Password} ,Phone:{Phone}, CCode:{CCode} ,MemberSince:{MemberSince} ,Nationality:{Nationality} ,SignedUpLoc:{SignedUpLoc} ,ReqOrigin:{ReqOrigin} }) RETURN n",
 				"params":{
 					"UUID"			:	uuid,
-					"UserName"		:	"Praneesh",
-					"DOB"			:	"22-June-1988",
-					"Sex"			:	"M",
-					"Email"			:	"pranuvitmsse05@gmail.com",
-					"Password"		:	"md5-hash",
-					"Phone"			:	"8197239863",
-					"CCode"			:	"+91",
-					"MemberSince"	:	"10-Aug-2014",
-					"Nationality"	:	"Indian",
-					"SignedUpLoc"	:	signUpLocation
+					"UserName"		:	req.body.UserName,
+					"DOB"			:	req.body.DOB,
+					"Sex"			:	req.body.Sex,
+					"Email"			:	req.body.Email,
+					"Password"		:	req.body.Password,
+					"Phone"			:	req.body.Phone,
+					"CCode"			:	req.body.CCode,
+					"MemberSince"	:	req.body.MemberSince,
+					"Nationality"	:	req.body.Nationality,
+					"SignedUpLoc"	:	signUpLocation,
+					"ReqOrigin"		:	reqOrigin
 				}
 	};
 	requestOptions["body"]	=	JSON.stringify(jsonPayLoad);

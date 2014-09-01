@@ -5,7 +5,8 @@ var bodyParser	= 	require('body-parser'); 	//Module for parsing incoming data th
 var	userController	= 	require(__dirname+'/controllers/users-controller.js');	// Handles users information
 
 var app = express();
-var	screamsServicesOn	= 9080;
+ 
+var	screamsServicesOn	= 9357;
 var options=null;
 
 initialize();
@@ -23,7 +24,7 @@ function initialize(){
 	  res.header('Access-Control-Allow-Headers', 'Content-Type');
 	  next();
 	});
-	
+	//app.enable('trust proxy');
 	app.listen(screamsServicesOn);
 	console.log('Scream Services Running On '+screamsServicesOn);
 	
