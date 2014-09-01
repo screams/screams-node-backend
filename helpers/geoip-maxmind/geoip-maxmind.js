@@ -10,5 +10,8 @@ maxmindGeoIP.init('helpers/geoip-maxmind/GeoLiteCity.dat',{indexCache: true, che
 
 exports.getCity = function(ipAddress){
 	var location = maxmindGeoIP.getLocation(ipAddress);
+	if(!location){
+		return "-NA-";
+	}
 	return location.city;
 }
