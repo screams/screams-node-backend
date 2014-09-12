@@ -2,6 +2,8 @@
 var express		= 	require('express');			// Module for enabling server/routing capabilitis
 var bodyParser	= 	require('body-parser'); 	//Module for parsing incoming data through POST & PUT
 
+
+
 var	userController	= 	require(__dirname+'/controllers/users-controller.js');	// Handles users information
 
 var app = express();
@@ -65,14 +67,29 @@ function initializeUserController(){
 			  "SignedUpLoc"	:	"<LatLong Coordinates or IPAddress>"
 			}
 	*/
-	app.post('/createUser',userController.createUser);	
-	logServices('/createUser','POST');
+	app.post('/user',userController.createUser);	
+	logServices('/user','POST');
+	
+	/*
+		User Control for Getting a User By UUID
+		GET QSP Structure:
+			user/c3d4daba-57e5-484a-8ca2-2999884512aa
+	*/
+	app.get('/user/:uuid',userController.getUserByUUID);	
+	logServices('/user/:uuid','GET');
+	
+	/*
+		User Control for Getting a User By EMail
+		GET QSP Structure:
+			user/c3d4daba-57e5-484a-8ca2-2999884512aa
+	
+	app.get('/user/:uuid',userController.getUserByUUID);	
+	logServices('/user/:uuid','GET');*/
 }
 
 
 function logServices(serviceName,serviceMethod){
-	//API Scraping Service
-	console.log('Isom API Scraping Service @ ' + serviceMethod +'  '+ serviceName);
+	console.log('Service  @ ' + serviceMethod +'  '+ serviceName);
 }
 
 
