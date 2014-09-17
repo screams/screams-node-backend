@@ -10,5 +10,5 @@ exports.createAndGetReturnMessage = function(info,error,statusCode,callback){
 	returnPacket.info	= info;
 	returnPacket.error	= error;
 	returnPacket.statusCode	= statusCode;
-	callback(null,returnPacket);	// Set it to null, with a great confidence that nothing can go wrong.
+	callback(null,returnPacket);	// Setting error message to null, with a great confidence that nothing can go wrong.
 }

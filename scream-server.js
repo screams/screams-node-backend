@@ -4,7 +4,9 @@ var bodyParser	= 	require('body-parser'); 	//Module for parsing incoming data th
 
 
 
-var	userController	= 	require(__dirname+'/controllers/users-controller.js');	// Handles users information
+var	userController		= 	require(__dirname+'/controllers/users-controller.js');	// Handles users information
+var	screamsController	= 	require(__dirname+'/controllers/screams-controller.js');	// Handles users information
+
 
 var app = express();
  
@@ -45,10 +47,11 @@ function initialize(){
 function 	initializeRouteServiceControllers(){
 	
 	initializeUserController();
+	initializeScreamsController();
 }
 
 /*
-	
+	User Controller To Handle User Interactions
 */
 function initializeUserController(){
 	userController.initializeOptions(options);
@@ -87,6 +90,27 @@ function initializeUserController(){
 	logServices('/user/:uuid','GET');*/
 }
 
+/*
+	Screams Controller To Handle Screams 
+*/
+function initializeScreamsController(){
+	screamsController.initializeOptions(options);
+	
+	/*
+		Screams Control for Creating a Scream
+		POST JSON Structure:
+			{
+			  "ScreamerUUID":	"",
+			  "ScreamType"	:	"General",
+			  "ScreamedOn"	:	"17-Sep-2014",
+			  "ScreamContent":	"Some Text",
+			  "ScreamLink"	:	"http://testURL/URLCanLaterBeTinyURLToReduceDataExchangeSize",		
+			  "ScreamedAt"	:	"UUI of an existing character"
+			}
+	*/
+	app.post('/scream',screamsController.newScream);	
+	logServices('/scream','POST');
+}
 
 function logServices(serviceName,serviceMethod){
 	console.log('Service  @ ' + serviceMethod +'  '+ serviceName);

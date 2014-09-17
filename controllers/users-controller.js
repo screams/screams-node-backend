@@ -88,29 +88,8 @@ exports.createUser = function(req,res){
 			responseHandler.createAndSendResponse(res,result.error,result.statusCode);
 		}
 	});
-	
-	//Step 1: Check If User Exists With The Same EMail Address
-	/*checkAndGetUserByEMail(email, function (error,response){
-		if(!error){
-				if(response.info != null){
-					//If User Exists, return the UUID for reference and skip wthout making an entry
-					info = response.info.UUID;
-					responseHandler.createAndSendResponse(res,info,response.statusCode);
-					return;
-				}
-				requestOptions["body"]	=	JSON.stringify(jsonPayLoad);
-				request.post(requestOptions,function (error, response1, body) {
-				if(!error){
-					responseHandler.createAndSendResponse(res,info,response1.statusCode);
-				}else{
-					responseHandler.createAndSendResponse(res,info,401);
-				}
-			});
-		}
-	});
-	*/
-	
 };
+
 /*
 	This function allows to add a User into the database.
 	This could be a shared function		::Shared
